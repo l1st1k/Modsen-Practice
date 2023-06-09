@@ -1,6 +1,8 @@
-from fastapi.responses import JSONResponse
 from fastapi import status
-from services import get_data_from_csv, add_unique_ids
+from fastapi.responses import JSONResponse
+
+from elastic import put_df_into_elastic
+from services import add_unique_ids, get_data_from_csv
 
 __all__ = (
     'ActionRepository',
@@ -18,7 +20,7 @@ class ActionRepository:
         add_unique_ids(df)
 
         # Putting data into elastic
-        # put_df_into_elastic(df)
+        put_df_into_elastic(df)
 
         # Putting data into database
         # put_df_into_db(db)
