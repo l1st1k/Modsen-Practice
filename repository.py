@@ -19,3 +19,15 @@ class ActionRepository:
             },
             status_code=status.HTTP_200_OK)
         return response
+
+    @classmethod
+    def clear_database(cls) -> JSONResponse:
+        # TODO
+        # Elastic clearance
+        # Database clearance
+        response = JSONResponse(
+            content={
+                "message": f"Database successfully cleared!",
+            },
+            status_code=status.HTTP_200_OK)
+        return response

@@ -14,10 +14,22 @@ async def http_exception_handler(request, exc):
 @app.get(
     "/fill_db",
     response_class=JSONResponse,
-    description='Fill database with test data',
+    description='Fill database and elastic with test data from "posts.csv"',
     tags=[
         "Tools"
     ]
 )
-def _fill_db():
+def _fill_database():
     return ActionRepository.fill_database()
+
+
+@app.get(
+    "/clear_db",
+    response_class=JSONResponse,
+    description='Deletes all data from database and elastic',
+    tags=[
+        "Tools"
+    ]
+)
+def _clear_database():
+    return ActionRepository.clear_database()
