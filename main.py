@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+
 from repository import ActionRepository
 
 app = FastAPI()
@@ -33,3 +34,15 @@ async def _fill_database():
 )
 async def _clear_database():
     return await ActionRepository.clear_database()
+
+
+@app.get(
+    "/get_elastic_amount",
+    response_class=JSONResponse,
+    description='Returns amount of items in elastic index',
+    tags=[
+        "Tools"
+    ]
+)
+async def _get_elastic_amount():
+    return await ActionRepository.get_amount()

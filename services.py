@@ -1,5 +1,6 @@
-import pandas as pd
 from uuid import uuid4
+
+import pandas as pd
 
 __all__ = (
     'get_data_from_csv',

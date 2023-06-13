@@ -1,7 +1,7 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
 
-from elastic import put_df_into_elastic
+from elastic import get_index_count, put_df_into_elastic
 from services import add_unique_ids, get_data_from_csv
 
 __all__ = (
@@ -40,6 +40,16 @@ class ActionRepository:
         response = JSONResponse(
             content={
                 "message": f"Database successfully cleared!",
+            },
+            status_code=status.HTTP_200_OK)
+        return response
+
+    @classmethod
+    async def get_amount(cls) -> JSONResponse:
+        index_name, amount = await get_index_count()
+        response = JSONResponse(
+            content={
+                "message": f"Elastic index (name={index_name}) contains {amount} items!",
             },
             status_code=status.HTTP_200_OK)
         return response
