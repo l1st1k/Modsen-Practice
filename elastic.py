@@ -6,6 +6,7 @@ from elasticsearch import AsyncElasticsearch
 __all__ = (
     'put_df_into_elastic',
     'get_index_count',
+    'clear_elastic_index',
 )
 
 es = AsyncElasticsearch(
@@ -34,3 +35,7 @@ async def get_index_count(name: str = index_name) -> Tuple[str, int]:
     response = await es.count(index=name)
     return name, response['count']
 
+
+async def clear_elastic_index(name: str = index_name) -> str:
+    await es.delete_by_query(index=name, body={"query": {"match_all": {}}})
+    return name
