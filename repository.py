@@ -1,7 +1,7 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
 
-from elastic import get_index_count, put_df_into_elastic
+from elastic import clear_elastic_index, get_index_count, put_df_into_elastic
 from services import add_unique_ids, get_data_from_csv
 
 __all__ = (
@@ -12,7 +12,6 @@ __all__ = (
 class ActionRepository:
     @classmethod
     async def fill_database(cls) -> JSONResponse:
-        # TODO
         # Getting data from .csv
         df = get_data_from_csv('task/posts.csv')
 
@@ -23,33 +22,42 @@ class ActionRepository:
         await put_df_into_elastic(df)
 
         # Putting data into database
+        # TODO
         # put_df_into_db(db)
 
         response = JSONResponse(
             content={
-                "message": f"Database successfully filled with test data",
+                "message": f"Database & Elastic index successfully filled with test data",
             },
-            status_code=status.HTTP_200_OK)
+            status_code=status.HTTP_201_CREATED)
         return response
 
     @classmethod
     async def clear_database(cls) -> JSONResponse:
-        # TODO
         # Elastic clearance
+        await clear_elastic_index()
+
         # Database clearance
+        # TODO
+
         response = JSONResponse(
             content={
-                "message": f"Database successfully cleared!",
+                "message": f"Database & Elastic index successfully cleared!",
             },
             status_code=status.HTTP_200_OK)
         return response
 
     @classmethod
     async def get_amount(cls) -> JSONResponse:
-        index_name, amount = await get_index_count()
+        index_name, amount_in_index = await get_index_count()
+
+        # TODO get_table_count
+        table_name, amount_in_table = 'TBA', 'TBA'  # get_table_count()
+
         response = JSONResponse(
             content={
-                "message": f"Elastic index (name={index_name}) contains {amount} items!",
+                "elastic": f"index (name={index_name}) contains {amount_in_index} items!",
+                "database": f"table (name={table_name}) contains {amount_in_table} items!",
             },
             status_code=status.HTTP_200_OK)
         return response

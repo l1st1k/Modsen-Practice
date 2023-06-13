@@ -16,7 +16,7 @@ db = config["POSTGRES_DB"]
 
 
 class Posts(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
+    id: str = Field(default=None, primary_key=True)
     text: str
     rubrics: List[str]
     created_date: datetime
