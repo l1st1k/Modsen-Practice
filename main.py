@@ -19,8 +19,8 @@ async def http_exception_handler(request, exc):
         "Tools"
     ]
 )
-def _fill_database():
-    return ActionRepository.fill_database()
+async def _fill_database():
+    return await ActionRepository.fill_database()
 
 
 @app.get(
@@ -31,5 +31,5 @@ def _fill_database():
         "Tools"
     ]
 )
-def _clear_database():
-    return ActionRepository.clear_database()
+async def _clear_database():
+    return await ActionRepository.clear_database()

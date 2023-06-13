@@ -11,7 +11,7 @@ __all__ = (
 
 class ActionRepository:
     @classmethod
-    def fill_database(cls) -> JSONResponse:
+    async def fill_database(cls) -> JSONResponse:
         # TODO
         # Getting data from .csv
         df = get_data_from_csv('task/posts.csv')
@@ -20,7 +20,7 @@ class ActionRepository:
         add_unique_ids(df)
 
         # Putting data into elastic
-        put_df_into_elastic(df)
+        await put_df_into_elastic(df)
 
         # Putting data into database
         # put_df_into_db(db)
@@ -33,7 +33,7 @@ class ActionRepository:
         return response
 
     @classmethod
-    def clear_database(cls) -> JSONResponse:
+    async def clear_database(cls) -> JSONResponse:
         # TODO
         # Elastic clearance
         # Database clearance
