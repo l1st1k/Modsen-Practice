@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -29,7 +27,7 @@ async def on_startup():
         "Tools"
     ]
 )
-async def _fill_database():
+async def _fill_database() -> JSONResponse:
     return await ActionRepository.fill_database()
 
 
@@ -41,7 +39,7 @@ async def _fill_database():
         "Tools"
     ]
 )
-async def _clear_database():
+async def _clear_database() -> JSONResponse:
     return await ActionRepository.clear_database()
 
 
@@ -53,19 +51,19 @@ async def _clear_database():
         "Tools"
     ]
 )
-async def _get_items_amount():
+async def _get_items_amount() -> JSONResponse:
     return await ActionRepository.get_amount()
 
 
 @app.get(
     "/search/{query}",
-    # response_class=List_of_Posts,
+    response_model=List_of_Posts,
     description='Returns 20 last posts, that includes query text',
     tags=[
         "Posts"
     ]
 )
-async def _search_posts(query: str):
+async def _search_posts(query: str) -> List_of_Posts:
     return await ActionRepository.search_posts(query=query)
 
 
@@ -77,5 +75,5 @@ async def _search_posts(query: str):
         "Posts"
     ]
 )
-async def delete_post(post_id: str):
+async def delete_post(post_id: str) -> JSONResponse:
     return await ActionRepository.delete_by_id(post_id=post_id)

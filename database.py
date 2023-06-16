@@ -4,7 +4,7 @@ from typing import List, Tuple
 import pandas as pd
 from dotenv import dotenv_values
 from fastapi import HTTPException
-from sqlalchemy import func, desc
+from sqlalchemy import desc, func
 from sqlmodel import Field, Session, SQLModel, create_engine
 
 __all__ = (

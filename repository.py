@@ -14,7 +14,7 @@ class ActionRepository:
     @classmethod
     async def fill_database(cls) -> JSONResponse:
         # Getting data from .csv
-        df = get_data_from_csv('task/posts_9.csv')
+        df = get_data_from_csv('task/posts.csv')
 
         # Generate unique keys
         add_unique_ids(df)
