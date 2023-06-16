@@ -1,7 +1,7 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
 
-from database import put_df_into_db, clear_database_table
+from database import clear_database_table, get_table_count, put_df_into_db
 from elastic import clear_elastic_index, get_index_count, put_df_into_elastic
 from services import add_unique_ids, get_data_from_csv
 
@@ -50,9 +50,7 @@ class ActionRepository:
     @classmethod
     async def get_amount(cls) -> JSONResponse:
         index_name, amount_in_index = await get_index_count()
-
-        # TODO get_table_count
-        table_name, amount_in_table = 'TBA', 'TBA'  # get_table_count()
+        table_name, amount_in_table = await get_table_count()
 
         response = JSONResponse(
             content={
