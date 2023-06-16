@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -9,7 +11,7 @@ app = FastAPI()
 
 
 @app.exception_handler(StarletteHTTPException)
-async def http_exception_handler(exc):
+async def http_exception_handler(request, exc):
     return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
 
 
@@ -57,7 +59,7 @@ async def _get_items_amount():
 
 @app.get(
     "/search/{query}",
-    response_class=List_of_Posts,
+    # response_class=List_of_Posts,
     description='Returns 20 last posts, that includes query text',
     tags=[
         "Posts"

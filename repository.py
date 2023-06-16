@@ -1,13 +1,8 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
 
-from database import (
-    List_of_Posts,
-    clear_database_table,
-    get_table_count,
-    put_df_into_db
-)
-from elastic import clear_elastic_index, get_index_count, put_df_into_elastic
+from database import *
+from elastic import *
 from services import add_unique_ids, get_data_from_csv
 
 __all__ = (
@@ -75,10 +70,14 @@ class ActionRepository:
     @staticmethod
     async def delete_by_id(post_id: str) -> JSONResponse:
         # TODO
-        # Delete from index
-        # Delete from db
+        # Deletion from index
+        await delete_post_by_id_from_elastic(post_id=post_id)
+
+        # Deletion from database
+        # await delete_post_by_id_from_database(post_id=post_id)
+
         response = JSONResponse(
-            content="CV successfully deleted!",
+            content="Post was successfully deleted!",
             status_code=status.HTTP_200_OK
         )
         return response
