@@ -58,5 +58,5 @@ async def delete_post_by_id_from_elastic(post_id: str) -> None:
         if response['deleted'] == 0:
             raise HTTPException(
                 status_code=404,
-                detail='Post not found.'
+                detail='Post not found in elastic index.'
             )

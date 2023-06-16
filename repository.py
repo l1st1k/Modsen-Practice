@@ -69,12 +69,11 @@ class ActionRepository:
 
     @staticmethod
     async def delete_by_id(post_id: str) -> JSONResponse:
-        # TODO
         # Deletion from index
         await delete_post_by_id_from_elastic(post_id=post_id)
 
         # Deletion from database
-        # await delete_post_by_id_from_database(post_id=post_id)
+        await delete_post_by_id_from_database(post_id=post_id)
 
         response = JSONResponse(
             content="Post was successfully deleted!",
