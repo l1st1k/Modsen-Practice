@@ -1,7 +1,7 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
 
-from database import put_df_into_db
+from database import put_df_into_db, clear_database_table
 from elastic import clear_elastic_index, get_index_count, put_df_into_elastic
 from services import add_unique_ids, get_data_from_csv
 
@@ -38,7 +38,7 @@ class ActionRepository:
         await clear_elastic_index()
 
         # Database clearance
-        # TODO
+        await clear_database_table()
 
         response = JSONResponse(
             content={

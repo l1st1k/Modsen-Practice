@@ -5,7 +5,8 @@ from dotenv import dotenv_values
 from sqlmodel import Field, Session, SQLModel, create_engine
 
 __all__ = (
-    'put_df_into_db'
+    'put_df_into_db',
+    'clear_database_table',
 )
 
 # Env variables
@@ -40,3 +41,8 @@ async def put_df_into_db(df: pd.DataFrame) -> None:
             session.add(post)
         session.commit()
 
+
+async def clear_database_table(table=Posts) -> None:
+    with Session(engine) as session:
+        session.query(table).delete()
+        session.commit()
