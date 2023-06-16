@@ -1,6 +1,7 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
 
+from database import put_df_into_db
 from elastic import clear_elastic_index, get_index_count, put_df_into_elastic
 from services import add_unique_ids, get_data_from_csv
 
@@ -13,7 +14,7 @@ class ActionRepository:
     @classmethod
     async def fill_database(cls) -> JSONResponse:
         # Getting data from .csv
-        df = get_data_from_csv('task/posts.csv')
+        df = get_data_from_csv('task/posts_9.csv')
 
         # Generate unique keys
         add_unique_ids(df)
@@ -22,8 +23,7 @@ class ActionRepository:
         await put_df_into_elastic(df)
 
         # Putting data into database
-        # TODO
-        # put_df_into_db(db)
+        await put_df_into_db(df)
 
         response = JSONResponse(
             content={
