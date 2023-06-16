@@ -2,17 +2,22 @@ version: '3.3'
 
 services:
   web:
-    build: .
-    volumes:
-        - . :/app
+    container_name: "app"
+    build:
+        context: .
+        dockerfile: Dockerfile
     ports:
       - "8000:8000"
     env_file:
       - .env
+    networks:
+      - modsen
     depends_on:
       - db, elasticsearch
+    restart: always
 
   db:
+    container_name: "postgresql_db"
     image: postgres:15.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -20,8 +25,11 @@ services:
       - .env
     ports:
       - "5432:5432"
+    networks:
+      - modsen
 
   elasticsearch:
+    container_name: "elasticsearch"
     image: elasticsearch:8.8.0
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
@@ -31,7 +39,13 @@ services:
     ports:
       - "9200:9200"
     restart: always
+    networks:
+      - modsen
 
 volumes:
   postgres_data:
   elastic_data:
+
+networks:
+  modsen:
+    driver: bridge

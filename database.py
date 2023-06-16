@@ -33,7 +33,7 @@ class Posts(SQLModel, table=True):
 
 List_of_Posts = List[Posts]
 
-postgresql_url = f"postgresql://{username}:{password}@localhost/{db}"
+postgresql_url = f"postgresql://{username}:{password}@postgresql_db/{db}"
 engine = create_engine(postgresql_url, echo=True)
 
 

@@ -15,7 +15,7 @@ __all__ = (
 es = AsyncElasticsearch(
     [{
         'scheme': "http",
-        'host': 'localhost',
+        'host': 'elasticsearch',
         'port': 9200
     }]
 )
