@@ -62,10 +62,13 @@ class ActionRepository:
 
     @staticmethod
     async def search_posts(query: str) -> List_of_Posts:
-        # TODO
         # Search for text in index and return their ids
+        list_of_ids = await search_for_text_in_elastic(query=query)
+
         # Select posts from db with ORDER BY creation date , LIMIT = 20
-        pass
+        posts = await select_posts_by_ids_from_db(list_of_ids)
+
+        return posts
 
     @staticmethod
     async def delete_by_id(post_id: str) -> JSONResponse:

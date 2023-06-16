@@ -4,7 +4,7 @@ from typing import List, Tuple
 import pandas as pd
 from dotenv import dotenv_values
 from fastapi import HTTPException
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from sqlmodel import Field, Session, SQLModel, create_engine
 
 __all__ = (
@@ -13,6 +13,7 @@ __all__ = (
     'clear_database_table',
     'get_table_count',
     'delete_post_by_id_from_database',
+    'select_posts_by_ids_from_db',
 )
 
 # Env variables
@@ -75,3 +76,15 @@ async def delete_post_by_id_from_database(post_id: str) -> None:
                 status_code=404,
                 detail='Post not found in database.'
             )
+
+
+async def select_posts_by_ids_from_db(list_of_ids: List[str]) -> List_of_Posts:
+    with Session(engine) as session:
+        posts = (
+            session.query(Posts)
+            .filter(Posts.id.in_(list_of_ids))
+            .order_by(desc(Posts.created_date))
+            .limit(20)
+            .all()
+        )
+        return posts

@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 
 import pandas as pd
 from elasticsearch import AsyncElasticsearch
@@ -8,7 +8,8 @@ __all__ = (
     'put_df_into_elastic',
     'get_index_count',
     'clear_elastic_index',
-    'delete_post_by_id_from_elastic'
+    'delete_post_by_id_from_elastic',
+    'search_for_text_in_elastic'
 )
 
 es = AsyncElasticsearch(
@@ -60,3 +61,21 @@ async def delete_post_by_id_from_elastic(post_id: str) -> None:
                 status_code=404,
                 detail='Post not found in elastic index.'
             )
+
+
+async def search_for_text_in_elastic(query: str) -> List[str]:
+    """Searches for text in posts and returns list of IDs for found posts"""
+    async with es:
+        response = await es.search(
+            index=index_name,
+            body={
+                "query": {
+                    "match": {
+                        "text": query
+                    }
+                }
+            }
+        )
+        hits = response['hits']['hits']
+        post_ids = [hit['_source']['post_id'] for hit in hits]
+        return post_ids
