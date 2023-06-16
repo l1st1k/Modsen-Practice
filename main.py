@@ -15,8 +15,7 @@ async def http_exception_handler(request, exc):
 
 @app.on_event("startup")
 async def on_startup():
-    # TODO init process
-    pass
+    await ActionRepository.startup()
 
 
 @app.get(

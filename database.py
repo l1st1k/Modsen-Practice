@@ -8,6 +8,7 @@ from sqlalchemy import desc, func
 from sqlmodel import Field, Session, SQLModel, create_engine
 
 __all__ = (
+    'engine',
     'List_of_Posts',
     'put_df_into_db',
     'clear_database_table',
@@ -34,8 +35,6 @@ List_of_Posts = List[Posts]
 
 postgresql_url = f"postgresql://{username}:{password}@localhost/{db}"
 engine = create_engine(postgresql_url, echo=True)
-
-# SQLModel.metadata.create_all(engine)
 
 
 async def put_df_into_db(df: pd.DataFrame) -> None:

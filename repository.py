@@ -1,9 +1,13 @@
+import os
+
+from dotenv import load_dotenv
 from fastapi import status
 from fastapi.responses import JSONResponse
+from sqlmodel import SQLModel
 
 from database import *
 from elastic import *
-from services import add_unique_ids, get_data_from_csv
+from services import add_unique_ids, get_data_from_csv, uncheck_first_boot_flag
 
 __all__ = (
     'ActionRepository',
@@ -11,6 +15,23 @@ __all__ = (
 
 
 class ActionRepository:
+    @classmethod
+    async def startup(cls) -> None:
+        load_dotenv(".env")
+        is_first_boot = os.getenv("IS_FIRST_BOOT")
+
+        if is_first_boot == "1":
+            # Projecting database table
+            SQLModel.metadata.create_all(engine)
+
+            # Filling elastic index and database
+            await ActionRepository.fill_database()
+
+            # Updating .env file
+            uncheck_first_boot_flag()
+
+            print("Project initialization finished successfully!")
+
     @classmethod
     async def fill_database(cls) -> JSONResponse:
         # Getting data from .csv
