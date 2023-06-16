@@ -12,6 +12,12 @@ async def http_exception_handler(request, exc):
     return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
 
 
+@app.on_event("startup")
+async def on_startup():
+    # TODO init process
+    pass
+
+
 @app.get(
     "/fill_db",
     response_class=JSONResponse,
@@ -37,12 +43,12 @@ async def _clear_database():
 
 
 @app.get(
-    "/get_elastic_amount",
+    "/get_items_amount",
     response_class=JSONResponse,
-    description='Returns amount of items in elastic index',
+    description='Returns amount of items in elastic index & database table',
     tags=[
         "Tools"
     ]
 )
-async def _get_elastic_amount():
+async def _get_items_amount():
     return await ActionRepository.get_amount()
