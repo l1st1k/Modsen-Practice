@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Tuple
+from typing import List, Tuple
 
 import pandas as pd
 from dotenv import dotenv_values
@@ -7,6 +7,7 @@ from sqlalchemy import func
 from sqlmodel import Field, Session, SQLModel, create_engine
 
 __all__ = (
+    'List_of_Posts',
     'put_df_into_db',
     'clear_database_table',
     'get_table_count',
@@ -25,6 +26,8 @@ class Posts(SQLModel, table=True):
     rubrics: str
     created_date: datetime
 
+
+List_of_Posts = List[Posts]
 
 postgresql_url = f"postgresql://{username}:{password}@localhost/{db}"
 engine = create_engine(postgresql_url, echo=True)

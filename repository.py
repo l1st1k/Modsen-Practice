@@ -1,7 +1,12 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
 
-from database import clear_database_table, get_table_count, put_df_into_db
+from database import (
+    List_of_Posts,
+    clear_database_table,
+    get_table_count,
+    put_df_into_db
+)
 from elastic import clear_elastic_index, get_index_count, put_df_into_elastic
 from services import add_unique_ids, get_data_from_csv
 
@@ -58,4 +63,22 @@ class ActionRepository:
                 "database": f"table (name={table_name}) contains {amount_in_table} items!",
             },
             status_code=status.HTTP_200_OK)
+        return response
+
+    @staticmethod
+    async def search_posts(query: str) -> List_of_Posts:
+        # TODO
+        # Search for text in index and return their ids
+        # Select posts from db with ORDER BY creation date , LIMIT = 20
+        pass
+
+    @staticmethod
+    async def delete_by_id(post_id: str) -> JSONResponse:
+        # TODO
+        # Delete from index
+        # Delete from db
+        response = JSONResponse(
+            content="CV successfully deleted!",
+            status_code=status.HTTP_200_OK
+        )
         return response
