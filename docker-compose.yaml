@@ -13,10 +13,11 @@ services:
     networks:
       - modsen
     depends_on:
-      - db, elasticsearch
+      - postgresql
+      - elasticsearch
 
-  db:
-    container_name: "postgresql_db"
+  postgresql:
+    container_name: "postgresql"
     image: postgres:15.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
