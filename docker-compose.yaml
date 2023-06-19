@@ -10,11 +10,16 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    command:
+      - bash
+      - -c
+      - |
+        while !</dev/tcp/postgresql/5432; do sleep 1; done; 
+        uvicorn main:app --host 0.0.0.0 --reload
     networks:
       - modsen
     depends_on:
       - postgresql
-      - elasticsearch
 
   postgresql:
     container_name: "postgresql"
