@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from database import List_of_Posts
+from database import list_of_posts
 from repository import ActionRepository
 
 app = FastAPI()
@@ -56,13 +56,13 @@ async def _get_items_amount() -> JSONResponse:
 
 @app.get(
     "/search/{query}",
-    response_model=List_of_Posts,
+    response_model=list_of_posts,
     description='Returns 20 last posts, that includes query text',
     tags=[
         "Posts"
     ]
 )
-async def _search_posts(query: str) -> List_of_Posts:
+async def _search_posts(query: str) -> list_of_posts:
     return await ActionRepository.search_posts(query=query)
 
 

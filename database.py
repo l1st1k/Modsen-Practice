@@ -1,15 +1,16 @@
-from datetime import datetime
 from typing import List, Tuple
 
 import pandas as pd
 from dotenv import dotenv_values
 from fastapi import HTTPException
 from sqlalchemy import desc, func
-from sqlmodel import Field, Session, SQLModel, create_engine
+from sqlmodel import Session, create_engine
+
+from models import Posts
 
 __all__ = (
     'engine',
-    'List_of_Posts',
+    'list_of_posts',
     'put_df_into_db',
     'clear_database_table',
     'get_table_count',
@@ -24,14 +25,7 @@ password = config["POSTGRES_PASSWORD"]
 db = config["POSTGRES_DB"]
 
 
-class Posts(SQLModel, table=True):
-    id: str = Field(default=None, primary_key=True)
-    text: str
-    rubrics: str
-    created_date: datetime
-
-
-List_of_Posts = List[Posts]
+list_of_posts = List[Posts]
 
 postgresql_url = f"postgresql://{username}:{password}@postgresql/{db}"
 engine = create_engine(postgresql_url, echo=True)
@@ -77,7 +71,7 @@ async def delete_post_by_id_from_database(post_id: str) -> None:
             )
 
 
-async def select_posts_by_ids_from_db(list_of_ids: List[str]) -> List_of_Posts:
+async def select_posts_by_ids_from_db(list_of_ids: List[str]) -> list_of_posts:
     with Session(engine) as session:
         posts = (
             session.query(Posts)

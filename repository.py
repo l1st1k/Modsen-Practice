@@ -82,7 +82,7 @@ class ActionRepository:
         return response
 
     @staticmethod
-    async def search_posts(query: str) -> List_of_Posts:
+    async def search_posts(query: str) -> list_of_posts:
         # Search for text in index and return their ids
         list_of_ids = await search_for_text_in_elastic(query=query)
 
